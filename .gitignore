@@ -1,0 +1,13 @@
+/*
+
+!assets/
+!external/
+!source/
+!test/
+!github/
+
+!.gitignore
+!.gitmodule
+!CMakeLists.txt
+!LICENCE
+!README.md
