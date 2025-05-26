@@ -1,70 +1,83 @@
 #ifndef QUEQNORM_H
 #define QUEQNORM_H
 
-#include <normfn.h>
+#include <stddef.h>
+#include <stdbool.h>
 
-typedef struct quegnorm {
+typedef struct queue {
     void * elements; // array of elements
     size_t size, current; // number of elements and index of start element in queue
-} quegnorm_s;
+} queue_s;
+
+/// @brief Function pointer to destroy a single element in data structure. Based on 'free';
+typedef void   (*destroy_fn) (void * element);
+/// @brief Function pointer to copy a single element in data structure. Based on 'memcpy' and 'memmove'.
+typedef void * (*copy_fn) (void * dest, const void * src, size_t size);
+/// @brief Function pointer to compare two elements, 'zero' if equal, 'positive' if first is bigger, and 'negative' if second.
+/// Based on 'memcmp'.
+typedef int    (*compare_fn) (const void * a, const void * b, size_t size);
+/// @brief Fucntion pointer to perform a single operation on element in data structure.
+typedef bool   (*operate_fn) (void * element, size_t size, void * args);
+/// @brief Function pointer to manage an array of finite number of element in data structure.
+typedef void   (*manage_fn) (void * base, size_t n, size_t size, void * arg);
 
 /// @brief Creates empty queue.
 /// @return Empty queue structure.
-quegnorm_s quegnorm_create(void);
+queue_s quegnorm_create(void);
 
 /// @brief Destroys a queue.
 /// @param queue Queue data structure.
 /// @param destroy Function pointer to destroy a single element in queue.
 /// @param element_size Size of a single element.
-void quegnorm_destroy(quegnorm_s * queue, const destroy_fn destroy, const size_t element_size);
+void quegnorm_destroy(queue_s * queue, const destroy_fn destroy, const size_t element_size);
 
 /// @brief Creates a copy of queue and its elements.
 /// @param queue Queue data structure.
 /// @param copy Function pointer to copy a single element in queue.
 /// @param element_size Size of a single element.
 /// @return A copy of the queue.
-quegnorm_s quegnorm_copy(const quegnorm_s queue, const copy_fn copy, const size_t element_size);
+queue_s quegnorm_copy(const queue_s queue, const copy_fn copy, const size_t element_size);
 
 /// @brief Checks if queue size will overflow.
 /// @param queue Queue data structure.
 /// @return 'true' if queue size will overflow, 'false' otherwise.
-bool quegnorm_is_full(const quegnorm_s queue);
+bool quegnorm_is_full(const queue_s queue);
 
 /// @brief Checks if queue is empty.
 /// @param queue Queue data structure.
 /// @return 'true' if queue is empty, 'false' otherwise.
-bool quegnorm_is_empty(const quegnorm_s queue);
+bool quegnorm_is_empty(const queue_s queue);
 
 /// @brief Pushes element to the top of the queue.
 /// @param queue Queue data structure.
 /// @param element Single element to push.
 /// @param element_size Size of a single element.
-void quegnorm_push(quegnorm_s * queue, const void * element, const size_t element_size);
+void quegnorm_push(queue_s * queue, const void * element, const size_t element_size);
 
 /// @brief Peeps the top of the queue.
 /// @param queue Queue data structure.
 /// @param element Single element to save peeped element into.
 /// @param element_size Size of a single element.
-void quegnorm_peep(const quegnorm_s queue, void * element, const size_t element_size);
+void quegnorm_peep(const queue_s queue, void * element, const size_t element_size);
 
 /// @brief Pops element from the top of the queue.
 /// @param queue Queue data structure.
 /// @param element Single element to save poped element into.
 /// @param element_size Size of a single element.
-void quegnorm_pop(quegnorm_s * queue, void * element, const size_t element_size);
+void quegnorm_pop(queue_s * queue, void * element, const size_t element_size);
 
 /// @brief Iterates over each element in queue.
 /// @param queue Queue data structure.
 /// @param operate Fucntion pointer to perform a single operation on element in queue using arguments.
 /// @param element_size Size of a single element.
 /// @param arguments Generic arguments for function pointer.
-void quegnorm_foreach(quegnorm_s const * queue, const operate_fn operate, const size_t element_size, void * arguments);
+void quegnorm_foreach(queue_s const * queue, const operate_fn operate, const size_t element_size, void * arguments);
 
 /// @brief Maps each element in queue into an array to manage.
 /// @param queue Queue data structure.
 /// @param manage Function pointer to manage an array of finite number of element in queue.
 /// @param element_size Size of a single element.
 /// @param arguments Generic arguments for function pointer.
-void quegnorm_map(quegnorm_s const * queue, const manage_fn manage, const size_t element_size, void * arguments);
+void quegnorm_map(queue_s const * queue, const manage_fn manage, const size_t element_size, void * arguments);
 
 #endif //QUEQNORM_H

@@ -1,4 +1,4 @@
-#include <sequential/queue/quegnorm.h>
+#include <sequential/queue/queue.h>
 
 #include <string.h>
 
@@ -35,11 +35,11 @@
 #   error Expand capacity size is not defined.
 #endif
 
-quegnorm_s gnormque_create(void) {
-    return (quegnorm_s) { 0 };
+queue_s gnormque_create(void) {
+    return (queue_s) { 0 };
 }
 
-void gnormque_destroy(quegnorm_s * queue, const destroy_fn destroy, const size_t element_size) {
+void gnormque_destroy(queue_s * queue, const destroy_fn destroy, const size_t element_size) {
     QUEGNORM_ASSERT(queue && "[ERROR] 'queue' parameter is NULL.");
     QUEGNORM_ASSERT(destroy && "[ERROR] 'destroy' parameter is NULL.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -55,11 +55,11 @@ void gnormque_destroy(quegnorm_s * queue, const destroy_fn destroy, const size_t
     queue->elements = NULL;
 }
 
-quegnorm_s gnormque_copy(const quegnorm_s queue, const copy_fn copy, const size_t element_size) {
+queue_s gnormque_copy(const queue_s queue, const copy_fn copy, const size_t element_size) {
     QUEGNORM_ASSERT(copy && "[ERROR] 'copy' parameter is NULL.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
 
-    quegnorm_s queue_copy = { 0 }; // create temporary copy to return
+    queue_s queue_copy = { 0 }; // create temporary copy to return
 
     char const * elements = queue.elements + (queue.current * element_size); // save elements array as char pointer
     for (queue_copy.size = 0; queue_copy.size < queue.size; queue_copy.size++) {
@@ -78,15 +78,15 @@ quegnorm_s gnormque_copy(const quegnorm_s queue, const copy_fn copy, const size_
     return queue_copy; // return initialized queue copy
 }
 
-bool gnormque_is_full(const quegnorm_s queue) {
+bool gnormque_is_full(const queue_s queue) {
     return !(~queue.size); // check if queue's size has all bits set to one
 }
 
-bool gnormque_is_empty(const quegnorm_s queue) {
+bool gnormque_is_empty(const queue_s queue) {
     return !(queue.size); // check if queue's size is zero
 }
 
-void gnormque_enqueue(quegnorm_s * queue, const void * element, const size_t element_size) {
+void gnormque_enqueue(queue_s * queue, const void * element, const size_t element_size) {
     QUEGNORM_ASSERT(queue && "[ERROR] 'queue' parameter is NULL.");
     QUEGNORM_ASSERT(!(~queue->size) && "[ERROR] Queue size variable will overflow.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -104,7 +104,7 @@ void gnormque_enqueue(quegnorm_s * queue, const void * element, const size_t ele
     queue->size++;
 }
 
-void gnormque_peek(const quegnorm_s queue, void * element, const size_t element_size) {
+void gnormque_peek(const queue_s queue, void * element, const size_t element_size) {
     QUEGNORM_ASSERT(queue.size && "[ERROR] Can't peek empty queue.");
     QUEGNORM_ASSERT(element && "[ERROR] 'element' parameter is NULL.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -113,7 +113,7 @@ void gnormque_peek(const quegnorm_s queue, void * element, const size_t element_
     memcpy(element, queue.elements + (queue.current * element_size), element_size);
 }
 
-void gnormque_dequeue(quegnorm_s * queue, void * element, const size_t element_size) {
+void gnormque_dequeue(queue_s * queue, void * element, const size_t element_size) {
     QUEGNORM_ASSERT(queue && "[ERROR] 'queue' parameter is NULL.");
     QUEGNORM_ASSERT(queue->size && "[ERROR] Can't peep empty queue.");
     QUEGNORM_ASSERT(element && "[ERROR] 'element' parameter is NULL.");
@@ -136,7 +136,7 @@ void gnormque_dequeue(quegnorm_s * queue, void * element, const size_t element_s
     }
 }
 
-void gnormque_foreach(quegnorm_s const * queue, const operate_fn operate, const size_t element_size, void * arguments) {
+void gnormque_foreach(queue_s const * queue, const operate_fn operate, const size_t element_size, void * arguments) {
     QUEGNORM_ASSERT(queue && "[ERROR] 'queue' parameter is NULL.");
     QUEGNORM_ASSERT(operate && "[ERROR] 'operate' parameter is NULL.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -147,7 +147,7 @@ void gnormque_foreach(quegnorm_s const * queue, const operate_fn operate, const 
     }
 }
 
-void gnormque_map(quegnorm_s const * queue, const manage_fn manage, const size_t element_size, void * arguments) {
+void gnormque_map(queue_s const * queue, const manage_fn manage, const size_t element_size, void * arguments) {
     QUEGNORM_ASSERT(queue && "[ERROR] 'queue' parameter is NULL.");
     QUEGNORM_ASSERT(manage && "[ERROR] 'manage' parameter is NULL.");
     QUEGNORM_ASSERT(element_size && "[ERROR] Element's size can't be zero.");

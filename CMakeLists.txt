@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.22.1)
 project(NORMADS VERSION 1 LANGUAGES C)
 
 if (MSVC)
-    add_compile_options(/W2 /WX /Zi)
+    add_compile_options(/W4 /WX /Zi)
 else ()
-    add_compile_options(-std=c99 -O0 -g -Wall -Wextra -Wconversion -Werror)
+    add_compile_options(-std=c99 -O0 -g -Wall -Wextra -Wconversion -Werror -Wpedantic)
 endif ()
 
 add_subdirectory(external)

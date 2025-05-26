@@ -1,4 +1,4 @@
-#include <sequential/stack/stkgnorm.h>
+#include <sequential/stack/stack.h>
 
 #include <string.h>
 
@@ -38,11 +38,11 @@
 #   error Expand capacity size is not defined.
 #endif
 
-inline stkgnorm_s stkgnorm_create(void) {
-    return (stkgnorm_s) { 0 };
+inline stack_s stkgnorm_create(void) {
+    return (stack_s) { 0 };
 }
 
-void stkgnorm_destroy(stkgnorm_s * stack, const destroy_fn destroy_element, const size_t element_size) {
+void stkgnorm_destroy(stack_s * stack, const destroy_fn destroy_element, const size_t element_size) {
     GNORMSTK_ASSERT(stack && "[ERROR] 'stack' parameter is NULL.");
     GNORMSTK_ASSERT(destroy_element && "[ERROR] 'destroy_element' parameter is NULL.");
 
@@ -56,10 +56,10 @@ void stkgnorm_destroy(stkgnorm_s * stack, const destroy_fn destroy_element, cons
     stack->elements = NULL;
 }
 
-stkgnorm_s stkgnorm_copy(const stkgnorm_s stack, const copy_fn copy_element, const size_t element_size) {
+stack_s stkgnorm_copy(const stack_s stack, const copy_fn copy_element, const size_t element_size) {
     GNORMSTK_ASSERT(copy_element && "[ERROR] 'destroy_element' parameter is NULL.");
 
-    stkgnorm_s stack_copy = { 0 }; // create temporary copy to return
+    stack_s stack_copy = { 0 }; // create temporary copy to return
 
     char const * elements = stack.elements; // save elements array as char pointer
     for (stack_copy.size = 0; stack_copy.size < stack.size; stack_copy.size++) {
@@ -78,15 +78,15 @@ stkgnorm_s stkgnorm_copy(const stkgnorm_s stack, const copy_fn copy_element, con
     return stack_copy; // return initialized stack copy
 }
 
-bool stkgnorm_is_full(const stkgnorm_s stack) {
+bool stkgnorm_is_full(const stack_s stack) {
     return !(~stack.size); // check if stack's size has all bits set to one
 }
 
-bool stkgnorm_is_empty(const stkgnorm_s stack) {
+bool stkgnorm_is_empty(const stack_s stack) {
     return !(stack.size); // check if stack's size is zero
 }
 
-void stkgnorm_push(stkgnorm_s * stack, const void * element, const size_t element_size) {
+void stkgnorm_push(stack_s * stack, const void * element, const size_t element_size) {
     GNORMSTK_ASSERT(stack && "[ERROR] 'stack' parameter is NULL.");
     GNORMSTK_ASSERT(!(~stack->size) && "[ERROR] Stack size variable will overflow.");
     GNORMSTK_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -102,7 +102,7 @@ void stkgnorm_push(stkgnorm_s * stack, const void * element, const size_t elemen
     stack->size++;
 }
 
-void stkgnorm_peep(const stkgnorm_s stack, void * element, const size_t element_size) {
+void stkgnorm_peep(const stack_s stack, void * element, const size_t element_size) {
     GNORMSTK_ASSERT(stack.size && "[ERROR] Stack is empty.");
     GNORMSTK_ASSERT(element && "[ERROR] 'element' parameter is NULL.");
     GNORMSTK_ASSERT(element_size && "[ERROR] Element's size can't be zero.");
@@ -110,7 +110,7 @@ void stkgnorm_peep(const stkgnorm_s stack, void * element, const size_t element_
     memcpy(element, stack.elements + (element_size * (stack.size - 1)), element_size);
 }
 
-void stkgnorm_pop(stkgnorm_s * stack, void * element, const size_t element_size) {
+void stkgnorm_pop(stack_s * stack, void * element, const size_t element_size) {
     GNORMSTK_ASSERT(stack && "[ERROR] 'stack' parameter is NULL.");
     GNORMSTK_ASSERT(element && "[ERROR] 'element' parameter is NULL.");
     GNORMSTK_ASSERT(stack->size && "[ERROR] Stack is empty.");
@@ -129,7 +129,7 @@ void stkgnorm_pop(stkgnorm_s * stack, void * element, const size_t element_size)
     }
 }
 
-void stkgnorm_foreach(stkgnorm_s const * stack, const operate_fn operate_element, const size_t element_size,
+void stkgnorm_foreach(stack_s const * stack, const operate_fn operate_element, const size_t element_size,
     void * arguments) {
     GNORMSTK_ASSERT(stack && "[ERROR] 'stack' parameter is NULL.");
     GNORMSTK_ASSERT(operate_element && "[ERROR] 'operate_element' parameter is NULL.");
@@ -141,7 +141,7 @@ void stkgnorm_foreach(stkgnorm_s const * stack, const operate_fn operate_element
     }
 }
 
-void stkgnorm_map(stkgnorm_s const * stack, const manage_fn manage_element, const size_t element_size,
+void stkgnorm_map(stack_s const * stack, const manage_fn manage_element, const size_t element_size,
     void * arguments) {
     GNORMSTK_ASSERT(stack && "[ERROR] 'stack' parameter is NULL.");
     GNORMSTK_ASSERT(manage_element && "[ERROR] 'manage_element' parameter is NULL.");
