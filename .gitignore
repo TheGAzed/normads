@@ -7,7 +7,7 @@
 !github/
 
 !.gitignore
-!.gitmodule
+!.gitmodules
 !CMakeLists.txt
 !LICENCE
 !README.md
