@@ -2,6 +2,7 @@
 
 !assets/
 !external/
+!include/
 !source/
 !test/
 !github/
