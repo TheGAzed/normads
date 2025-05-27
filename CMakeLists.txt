@@ -10,7 +10,7 @@ endif ()
 
 add_subdirectory(external)
 
-add_library(${PROJECT_NAME} MODULE)
+add_library(${PROJECT_NAME} SHARED)
 add_subdirectory(source)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
@@ -18,7 +18,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 include(CTest)
 enable_testing()
 
-#add_subdirectory(test)
+add_subdirectory(test)
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/experiment")
 #    add_subdirectory(experiment)
