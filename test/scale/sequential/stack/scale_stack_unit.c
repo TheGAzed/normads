@@ -520,7 +520,7 @@ TEST FOREACH_01(void) {
 
     DATA_TYPE b = 0;
     sstk_pop(&test, &b, sizeof(DATA_TYPE));
-    ASSERT_EQm("[IRS-ERROR] Expected ied element by 'i'.", inc + 0, b);
+    ASSERT_EQm("[IRS-ERROR] Expected ith element by 'i'.", inc + 0, b);
 
     sstk_destroy(&test, destroy, sizeof(DATA_TYPE));
 
@@ -539,7 +539,7 @@ TEST FOREACH_02(void) {
     for (int i = REALLOC_CHUNK - 2; i >= 0; --i) {
         DATA_TYPE b = 0;
         sstk_pop(&test, &b, sizeof(DATA_TYPE));
-        ASSERT_EQm("[IRS-ERROR] Expected ied element by 'i'.", inc + i, b);
+        ASSERT_EQm("[IRS-ERROR] Expected ith element by 'i'.", inc + i, b);
     }
 
     sstk_destroy(&test, destroy, sizeof(DATA_TYPE));
@@ -559,7 +559,7 @@ TEST FOREACH_03(void) {
     for (int i = REALLOC_CHUNK - 1; i >= 0; --i) {
         DATA_TYPE b = 0;
         sstk_pop(&test, &b, sizeof(DATA_TYPE));
-        ASSERT_EQm("[IRS-ERROR] Expected ied element by 'i'.", inc + i, b);
+        ASSERT_EQm("[IRS-ERROR] Expected ith element by 'i'.", inc + i, b);
     }
 
     sstk_destroy(&test, destroy, sizeof(DATA_TYPE));
@@ -579,7 +579,7 @@ TEST FOREACH_04(void) {
     for (int i = REALLOC_CHUNK; i >= 0; --i) {
         DATA_TYPE b = 0;
         sstk_pop(&test, &b, sizeof(DATA_TYPE));
-        ASSERT_EQm("[IRS-ERROR] Expected ied element by 'i'.", i + inc, b);
+        ASSERT_EQm("[IRS-ERROR] Expected ith element by 'i'.", i + inc, b);
     }
 
     sstk_destroy(&test, destroy, sizeof(DATA_TYPE));

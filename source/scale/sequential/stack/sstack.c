@@ -38,7 +38,7 @@
 #   error Expand capacity size is not defined.
 #endif
 
-inline sstack_s sstk_create(void) {
+sstack_s sstk_create(void) {
     return (sstack_s) { 0 };
 }
 

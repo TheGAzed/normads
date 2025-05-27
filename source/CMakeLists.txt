@@ -1,5 +1,5 @@
 target_sources(${PROJECT_NAME}
-        PRIVATE scale/sequential/stack/sstack.c
-        PRIVATE scale/sequential/queue/squeue.c
-        PRIVATE scale/sequential/deque/sdeque.c
+        PUBLIC scale/sequential/stack/sstack.c
+        PUBLIC scale/sequential/queue/squeue.c
+        PUBLIC scale/sequential/deque/sdeque.c
 )

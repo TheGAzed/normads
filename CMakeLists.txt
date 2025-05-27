@@ -3,16 +3,16 @@ cmake_minimum_required(VERSION 3.22.1)
 project(NORMADS VERSION 1 LANGUAGES C)
 
 if (MSVC)
-    add_compile_options(/W4 /WX /Zi)
+    add_compile_options(/W2 /WX /Zi)
 else ()
     add_compile_options(-std=c99 -O0 -g -Wall -Wextra -Wconversion -Werror -Wpedantic)
 endif ()
 
 add_subdirectory(external)
 
-add_library(${PROJECT_NAME} SHARED)
-add_subdirectory(source)
+add_library(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+add_subdirectory(source)
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 
 include(CTest)

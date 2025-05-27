@@ -35,7 +35,7 @@
 #   error Expand capacity size is not defined.
 #endif
 
-inline sdeque_s sdeq_create(void) {
+sdeque_s sdeq_create(void) {
     return (sdeque_s) { 0 };
 }
 

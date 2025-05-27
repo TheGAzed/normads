@@ -127,13 +127,17 @@ void sque_dequeue(squeue_s * queue, void * element, const size_t element_size) {
         return;
     }
 
-    queue->current = 0;
     if (queue->size) {
-        queue->elements = REALLOC_SQUE(queue->elements, element_size * queue->size);
+        void * temporary = REALLOC_SQUE(NULL, element_size * queue->size);
+        memcpy(temporary, (char*)queue->elements + (queue->current * element_size), queue->size * element_size);
+
+        FREE_SQUE(queue->elements);
+        queue->elements = temporary;
     } else {
         FREE_SQUE(queue->elements);
         queue->elements = NULL;
     }
+    queue->current = 0;
 }
 
 void sque_foreach(squeue_s const * queue, const operate_fn operate, const size_t element_size, void * arguments) {

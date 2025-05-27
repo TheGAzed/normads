@@ -3,6 +3,7 @@ target_include_directories(helper PUBLIC ..)
 
 add_executable(scale_sequential_unit main.c
         stack/scale_stack_unit.c
+        queue/scale_queue_unit.c
 )
 
 target_include_directories(scale_sequential_unit PUBLIC .)
